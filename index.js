@@ -41,6 +41,15 @@ async function run() {
             res.send(collections);
         });
 
+        app.get('/updateradio/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {
+                _id: ObjectId(id)
+            };
+            const collection = await radioCollection.findOne(query);
+            res.send(collection);
+        });
+
         //post api
 
         app.post('/addradio', async (req, res) => {
@@ -57,6 +66,24 @@ async function run() {
             };
             const result = await radioCollection.deleteOne(query);
             res.send(result);
+        })
+
+
+        //put api
+        app.put('/updateradio/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateData = req.body;
+            const filter = {
+                _id: ObjectId(id)
+            };
+            const options = {
+                upsert: true
+            };
+            const updateDoc = {
+                $set: updateData,
+            };
+            const result = await radioCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
         })
 
 
