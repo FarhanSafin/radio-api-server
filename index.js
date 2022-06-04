@@ -55,15 +55,17 @@ async function run() {
         const radioCollection = client.db('radio').collection('radio_station_names');
 
         // get api
-/**
- * @swagger
- * /radionames:
- *  get:
- *    description: Use to request all radio stations name
- *    responses:
- *      '200':
- *        description: A successful response
- */
+        
+        /**
+         * @swagger
+         * /radionames:
+         *  get:
+         *    summary: Gets all radio station.
+         *    description: Use to request all radio stations name
+         *    responses:
+         *      '200':
+         *        description: A successful response
+         */
         app.get('/radionames', async (req, res) => {
             const query = {};
             const cursor = radioCollection.find(query);
@@ -72,19 +74,19 @@ async function run() {
         });
 
 
-/**
- * @swagger
- * paths:
- *   /updateradio/{id}:
- *     get:
- *       summary: Gets a radio station by ID.
- *       parameters:
- *         - in: path
- *           name: id
- *           type: string
- *           required: true
- *           description: ID of the radio station to get.  
- */
+        /**
+         * @swagger
+         * paths:
+         *   /updateradio/{id}:
+         *     get:
+         *       summary: Gets a radio station by ID.
+         *       parameters:
+         *         - in: path
+         *           name: id
+         *           type: string
+         *           required: true
+         *           description: ID of the radio station to get.  
+         */
         app.get('/updateradio/:id', async (req, res) => {
             const id = req.params.id;
             const query = {
@@ -96,6 +98,17 @@ async function run() {
 
         //post api
 
+        /**
+         * @swagger
+         * /addradio:
+         *  post:
+         *    summary: Used to add a radio station.
+         *    description: Use to add a radio station
+         *    responses:
+         *      '200':
+         *        description: A successful response
+         */
+
         app.post('/addradio', async (req, res) => {
             const part = req.body;
             const result = await radioCollection.insertOne(part);
@@ -103,6 +116,18 @@ async function run() {
         })
 
         //delete api
+
+        /**
+         * @swagger
+         * /radiostation/{id}:
+         *  delete:
+         *    summary: Used to delete a radio station.
+         *    description: Used to delete a radio station.
+         *    responses:
+         *      '200':
+         *        description: A successful response
+         */
+
         app.delete('/radiostation/:id', async (req, res) => {
             const id = req.params.id;
             const query = {
@@ -114,6 +139,17 @@ async function run() {
 
 
         //put api
+
+        /**
+         * @swagger
+         * /updateradio/{id}:
+         *  put:
+         *    summary: Used to update a radio station.
+         *    description: Used to update a radio station.
+         *    responses:
+         *      '200':
+         *        description: A successful response
+         */
         app.put('/updateradio/:id', async (req, res) => {
             const id = req.params.id;
             const updateData = req.body;
