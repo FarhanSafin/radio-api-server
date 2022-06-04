@@ -3,12 +3,34 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const app = express();
+
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 const {
     MongoClient,
     ServerApiVersion,
     ObjectId
 } = require('mongodb');
+
 const port = process.env.PORT || 5000;
+
+const swaggerOptions = {
+    swaggerDefinition: {
+        info: {
+            title: 'Radio Station API',
+            description: "Radio Station API Information",
+            contact: {
+                name: "Farhan"
+            },
+            servers: ["https://localhost:5000"]
+        }
+    },
+    apis: ["index.js"]
+};
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //middleware
 app.use(cors());
@@ -32,8 +54,16 @@ async function run() {
         await client.connect();
         const radioCollection = client.db('radio').collection('radio_station_names');
 
-        //get api
-
+        // get api
+/**
+ * @swagger
+ * /radionames:
+ *  get:
+ *    description: Use to request all radio stations name
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
         app.get('/radionames', async (req, res) => {
             const query = {};
             const cursor = radioCollection.find(query);
@@ -41,6 +71,20 @@ async function run() {
             res.send(collections);
         });
 
+
+/**
+ * @swagger
+ * paths:
+ *   /updateradio/{id}:
+ *     get:
+ *       summary: Gets a radio station by ID.
+ *       parameters:
+ *         - in: path
+ *           name: id
+ *           type: string
+ *           required: true
+ *           description: ID of the radio station to get.  
+ */
         app.get('/updateradio/:id', async (req, res) => {
             const id = req.params.id;
             const query = {
