@@ -27,9 +27,17 @@ async function run () {
         app.get('/radionames', async (req, res) => {
             const query = {};
             const cursor = radioCollection.find(query);
-            const collections = await await cursor.toArray();
+            const collections = await cursor.toArray();
             res.send(collections);
         });
+
+        //post api
+        
+        app.post('/addradio' ,async(req, res) => {
+            const part = req.body;
+            const result = await radioCollection.insertOne(part);
+            res.send(result);
+        })
     }
 
     finally{
