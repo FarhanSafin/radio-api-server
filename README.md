@@ -1,7 +1,7 @@
 # Radio Api Service
 
 Radio Api Service.
-Server Doc: https://radio-widget-t4.herokuapp.com/api-docs/
+Live Link: https://radio-api-t12.herokuapp.com/
 
 ## Features and Functionalities
 
